@@ -8,106 +8,124 @@ services:
     restart: unless-stopped
     volumes:
       - /dev/net:/dev/net:z # tun device
-      - ${ROOT}/config/vpn:/vpn # OpenVPN configuration
+      - /mnt/user/appdata/autoDownloaders/config/vpn:/vpn # OpenVPN configuration
     security_opt:
       - label:disable
     ports:
       - 8112:8112 # port for deluge web UI to be reachable from local network
+      - 9696:9696 # port for prowlarr web UI to be reachable from local network
+      - 8989:8989 # port for sonarr web UI to be reachable from local network
+      - 7878:7878 # port for radarr web UI to be reachable from local network
+      - 6767:6767 # port for bazarr web UI to be reachable from local network	  
+      - 8080:8080 # port for sabnzbd web UI to be reachable from local network	   
     command: '-f "" -r 192.168.1.0/24' # enable firewall and route local network traffic
-
+    labels: #to support unraid 9.10 on release
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/ich777/docker-templates/master/ich777/images/openvpn-client.png"
+      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME"
+ 
   deluge:
     container_name: deluge
     image: linuxserver/deluge:latest
     restart: unless-stopped
     network_mode: service:vpn # run on the vpn network
     environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=99 
+      - PGID=100 
+      - TZ=Europe/London 
     volumes:
-      - ${ROOT}/downloads:/downloads # downloads folder
-      - ${ROOT}/config/deluge:/config # config files
+      - /mnt/user/Downloads:/downloads # downloads folder
+      - /mnt/user/appdata/autoDownloaders/config/deluge:/config # config files
+    labels: #to support unraid 9.10 on release
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/deluge-logo.png"
+      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:8112"
 
-  jackett:
-    container_name: jackett
-    image: linuxserver/jackett:latest
-    restart: unless-stopped
-    network_mode: host
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    network_mode: service:vpn # run on the vpn network
     environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${ROOT}/downloads/torrent-blackhole:/downloads # place where to put .torrent files for manual download
-      - ${ROOT}/config/jackett:/config # config files
+      - /mnt/user/appdata/autoDownloaders/config/prowlarr/:/config
+    restart: unless-stopped
+    labels: #to support unraid 9.10 on release
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/prowlarr-icon.png"
+      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:9696"
 
-  nzbget:
-    container_name: nzbget
-    image: linuxserver/nzbget:latest
-    restart: unless-stopped
-    network_mode: host
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd
+    container_name: sabnzbd
+    network_mode: service:vpn # run on the vpn network
     environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
     volumes:
-      - ${ROOT}/downloads:/downloads # download folder
-      - ${ROOT}/config/nzbget:/config # config files
+      - /mnt/user/appdata/autoDownloaders/config/sabnzbd:/config
+      - /mnt/user/Downloads:/downloads #optional
+    restart: unless-stopped
+    labels: #to support unraid 9.10 on release
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/sabnzbd-icon.png"
+      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:8080"
 
   sonarr:
     container_name: sonarr
     image: linuxserver/sonarr:latest
     restart: unless-stopped
-    network_mode: host
+    network_mode: service:vpn # run on the vpn network
     environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=99 
+      - PGID=100 
+      - TZ=Europe/London 
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${ROOT}/config/sonarr:/config # config files
-      - ${ROOT}/complete/tv:/tv # tv shows folder
-      - ${ROOT}/downloads:/downloads # download folder
+      - /mnt/user/appdata/autoDownloaders/config/sonarr:/config # config files
+      - /mnt/user/TV:/tv # tv shows folder
+      - /mnt/user/Downloads:/downloads # download folder
+      - /mnt/user/OtherAnime:/nonMainAnime # non mainstream anime folder
+      - /mnt/user/Anime:/anime # anime folder
+    labels: #to support unraid 9.10 on release
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/sonarr-icon.png"
+      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:8989"
 
   radarr:
     container_name: radarr
     image: linuxserver/radarr:latest
     restart: unless-stopped
-    network_mode: host
+    network_mode: service:vpn # run on the vpn network
     environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=99 
+      - PGID=100 
+      - TZ=Europe/London 
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${ROOT}/config/radarr:/config # config files
-      - ${ROOT}/complete/movies:/movies # movies folder
-      - ${ROOT}/downloads:/downloads # download folder
-
-  plex-server:
-    container_name: plex-server
-    image: plexinc/pms-docker:latest
-    restart: unless-stopped
-    environment:
-      - TZ=${TZ} # timezone, defined in .env
-    network_mode: host
-    volumes:
-      - ${ROOT}/config/plex/db:/config # plex database
-      - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
-      - ${ROOT}/complete:/data # media library
+      - /mnt/user/appdata/autoDownloaders/config/radarr:/config # config files
+      - /mnt/user/Movies:/movies # movies folder
+      - /mnt/user/Downloads:/downloads # download folder
+      - /mnt/user/AnimeMovies:/animeMovies # anime movie folder
+    labels: #to support unraid 9.10 on release
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/radarr-icon.png"
+      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:7878"
 
   bazarr:
     container_name: bazarr
     image: linuxserver/bazarr
     restart: unless-stopped
-    network_mode: host
+    network_mode: service:vpn # run on the vpn network
     environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
+      - PUID=99 
+      - PGID=100 
+      - TZ=Europe/London 
       - UMASK_SET=022 #optional
     volumes:
-      - ${ROOT}/config/bazarr:/config # config files
-      - ${ROOT}/complete/movies:/movies # movies folder
-      - ${ROOT}/complete/tv:/tv # tv shows folder
+      - /mnt/user/appdata/autoDownloaders/config/bazarr:/config # config files
+      - /mnt/user/Movies:/movies # movies folder
+      - /mnt/user/TV:/tv # tv shows folder
+      - /mnt/user/OtherAnime:/nonMainAnime # non mainstream anime folder
+      - /mnt/user/Anime:/anime # anime folder
+      - /mnt/user/AnimeMovies:/animeMovies # anime movie folder
+    labels: #to support unraid 9.10 on release
+      - "net.unraid.docker.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr-logo.png"
+      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:6767"
