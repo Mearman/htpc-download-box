@@ -21,7 +21,6 @@ services:
     command: '-f "" -r 192.168.1.0/24' # enable firewall and route local network traffic
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/ich777/docker-templates/master/ich777/images/openvpn-client.png"
-      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME"
  
   deluge:
     container_name: deluge
