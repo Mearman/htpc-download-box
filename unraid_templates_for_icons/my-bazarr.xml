@@ -2,7 +2,6 @@
 <Container version="2">
   <Name>bazarr</Name>
   <Repository>linuxserver/bazarr</Repository>
-  <Registry>https://hub.docker.com/r/linuxserver/bazarr</Registry>
   <WebUI>http://192.168.1.53:6767/</WebUI>
   <Icon>https://raw.githubusercontent.com/morpheus65535/bazarr/master/frontend/public/static/favicon.ico</Icon>
 </Container>

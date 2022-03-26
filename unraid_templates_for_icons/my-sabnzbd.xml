@@ -2,7 +2,6 @@
 <Container version="2">
   <Name>sabnzbd</Name>
   <Repository>lscr.io/linuxserver/sabnzbd</Repository>
-  <Registry>https://hub.docker.com/r/linuxserver/sabnzbd</Registry>
   <WebUI>http://192.168.1.53:8080/</WebUI>
   <Icon>https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/sabnzbd-icon.png</Icon>
 </Container>

@@ -2,7 +2,6 @@
 <Container version="2">
   <Name>prowlarr</Name>
   <Repository>lscr.io/linuxserver/prowlarr:develop</Repository>
-  <Registry>https://hub.docker.com/r/linuxserver/prowlarr</Registry>
   <WebUI>http://192.168.1.53:9696/</WebUI>
   <Icon>https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/prowlarr-icon.png</Icon>
 </Container>

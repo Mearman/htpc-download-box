@@ -2,7 +2,6 @@
 <Container version="2">
   <Name>sonarr</Name>
   <Repository>linuxserver/sonarr</Repository>
-  <Registry>https://hub.docker.com/r/linuxserver/sonarr</Registry>
   <WebUI>http://192.168.1.53:8989/</WebUI>
   <Icon>https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/sonarr-icon.png</Icon>
 </Container>

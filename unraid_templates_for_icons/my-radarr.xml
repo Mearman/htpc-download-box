@@ -2,7 +2,6 @@
 <Container version="2">
   <Name>radarr</Name>
   <Repository>linuxserver/radarr</Repository>
-  <Registry>https://hub.docker.com/r/linuxserver/radarr</Registry>
   <WebUI>http://192.168.1.53:7878/</WebUI>
   <Icon>https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/radarr-icon.png</Icon>
 </Container>
