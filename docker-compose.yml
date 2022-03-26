@@ -35,7 +35,7 @@ services:
       - ${APPDATA_DELUGE}:/config # config files
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/deluge-logo.png"
-      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:8112"
+      - "net.unraid.docker.webui=https://$HOSTNAME:8112"
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
@@ -50,7 +50,7 @@ services:
     restart: unless-stopped
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/prowlarr-icon.png"
-      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:9696"
+      - "net.unraid.docker.webui=https://$HOSTNAME:9696"
 
   sabnzbd:
     image: lscr.io/linuxserver/sabnzbd
@@ -66,7 +66,7 @@ services:
     restart: unless-stopped
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/sabnzbd-icon.png"
-      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:8080"
+      - "net.unraid.docker.webui=https://$HOSTNAME:8080"
 
   sonarr:
     container_name: htpc-sonarr
@@ -85,7 +85,7 @@ services:
       - ${DOWNLOADS}:/downloads
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/sonarr-icon.png"
-      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:8989"
+      - "net.unraid.docker.webui=https://$HOSTNAME:8989"
 
   radarr:
     container_name: htpc-radarr
@@ -103,7 +103,7 @@ services:
       - ${DOWNLOADS}:/downloads
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/binhex/docker-templates/master/binhex/images/radarr-icon.png"
-      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:7878"
+      - "net.unraid.docker.webui=https://$HOSTNAME:7878"
 
   bazarr:
     container_name: htpc-bazarr
@@ -120,4 +120,4 @@ services:
       - ${MEDIA_DIR}:/media # media folder
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr-logo.png"
-      - "net.unraid.docker.webui=https://$DOCKERHOSTNAME:6767"
+      - "net.unraid.docker.webui=https://$HOSTNAME:6767"
