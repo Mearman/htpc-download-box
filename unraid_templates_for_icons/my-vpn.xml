@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>vpn</Name>
+  <Repository>dperson/openvpn-client</Repository>
+  <Registry>https://hub.docker.com/r/dperson/openvpn-client</Registry>
+  <Icon>https://raw.githubusercontent.com/ich777/docker-templates/master/ich777/images/openvpn-client.png</Icon>
+</Container>
