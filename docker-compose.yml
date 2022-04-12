@@ -35,7 +35,7 @@ services:
       - TZ=$TZ
     volumes:
       - type: bind
-        source: ${APPDATA_DELUGE}
+        source: ${APPDATA_DELUGE}/config
         target: /config
     labels: #to support unraid 9.10 on release
       - "net.unraid.docker.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/deluge-logo.png"
